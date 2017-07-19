@@ -16,3 +16,15 @@ build:
 
 install:
 	go install $(BUILD_FLAGS) xmlsect.go
+
+rpm:
+	rpmbuild -bb rpm.spec \
+		--define '_rpmdir ./RPMS' \
+		--define '_sourcedir ${PWD}' \
+		--buildroot ${PWD}/buildroot
+
+srpm:
+	rpmbuild -bs rpm.spec \
+		--define '_srcrpmdir ./SRPMS' \
+		--define '_sourcedir ${PWD}' \
+		--buildroot ${PWD}/buildroot
