@@ -1,0 +1,56 @@
+'\" t
+.\"     Title: xml sectrix (xmlsect)
+.\"    Author: David Gamba, davidgamba at gmail.com
+.\" Generator: Asciidoctor 1.5.5
+.\"      Date: 2017-07-19
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "XMLSECT" "1" "2017-07-19" "\ \&" "\ \&"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
+.LINKSTYLE blue R < >
+.SH "NAME"
+xml sectrix (xmlsect) \- Quickly query an XML file using XPath 1.0.
+.sp
+This tool reads a whole XML file into memory, extracts its XML Namespaces using a regular expression and then loads all the \fInamespaces\fP for you.
+.sp
+When there is a default namespace, it automatically loads it under the namespace ID \fBns\fP.
+An example XPath would then look like \f[CR]/ns:a/ns:b/ns:c\fP.
+.SH "SYNOPSIS"
+.sp
+\fBxmlsect\fP \fIfile\fP [\fIxpath\fP]
+.SH "CREDITS"
+.sp
+This tool is using the awesome libraries created by Santhosh Kumar Tekuri, \c
+.URL "https://github.com/santhosh\-tekuri/xpath" "xpath" " "
+and
+.URL "https://github.com/santhosh\-tekuri/dom" "dom" "."
+.SH "SOURCE CODE"
+.sp
+github: \c
+.URL "https://github.com/DavidGamba/xmlsect" "" ""
+.SH "LICENSE"
+.sp
+This file is part of xmlsect.
+.sp
+Copyright \(co 2017  David Gamba Rios
+.sp
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at \c
+.URL "http://mozilla.org/MPL/2.0/" "" "."
+.SH "AUTHOR(S)"
+.sp
+\fBDavid Gamba, davidgamba at gmail.com\fP
+.RS 4
+Author(s).
+.RE

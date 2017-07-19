@@ -1,0 +1,34 @@
+= XML Sectrix (xmlsect) (1)
+David Gamba, davidgamba at gmail.com
+:doctype: manpage
+
+== NAME
+
+xmlsect - Quickly query an XML file using XPath 1.0.
+
+This tool reads a whole XML file into memory, extracts its XML Namespaces using a regular expression and then loads all the _namespaces_ for you.
+
+When there is a default namespace, it automatically loads it under the namespace ID *ns*.
+An example XPath would then look like `/ns:a/ns:b/ns:c`.
+
+== SYNOPSIS
+
+*xmlsect* _file_ [_xpath_]
+
+== Credits
+
+This tool is using the awesome libraries created by Santhosh Kumar Tekuri, https://github.com/santhosh-tekuri/xpath[xpath] and https://github.com/santhosh-tekuri/dom[dom].
+
+== SOURCE CODE
+
+github: https://github.com/DavidGamba/xmlsect
+
+== LICENSE
+
+This file is part of xmlsect.
+
+Copyright (C) 2017  David Gamba Rios
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
