@@ -15,6 +15,21 @@ An example XPath would then look like `/ns:a/ns:b/ns:c`.
 
 *xmlsect* _file_ [_xpath_]
 
+== Installation
+
+* Using Golang:
++
+----
+go install github.com/davidgamba/xmlsect
+----
+
+* Using https://copr.fedorainfracloud.org/coprs/davidgamba[Copr]:
++
+----
+dnf copr enable davidgamba/xmlsect
+dnf install xmlsect
+----
+
 == Credits
 
 This tool is using the awesome libraries created by Santhosh Kumar Tekuri, https://github.com/santhosh-tekuri/xpath[xpath] and https://github.com/santhosh-tekuri/dom[dom].
