@@ -11,9 +11,10 @@ This tool reads a whole XML file into memory, extracts its XML Namespaces using 
 When there is a default namespace, it automatically loads it under the namespace ID *ns*.
 An example XPath would then look like `/ns:a/ns:b/ns:c`.
 
+
 == SYNOPSIS
 
-*xmlsect* _file_ [_xpath_]
+*xmlsect* _file_ [_xpath_] [_relative_xpath] [*--tree*]
 
 == Installation
 

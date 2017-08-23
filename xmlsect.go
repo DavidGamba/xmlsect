@@ -16,6 +16,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strings"
 
 	"github.com/DavidGamba/go-getoptions"
 	"github.com/DavidGamba/xmlsect/semver"
@@ -61,6 +62,100 @@ func printNodeSet(n []dom.Node) {
 	}
 }
 
+func printNodeSetTree(n []dom.Node) {
+	var str string
+	l := len(n)
+	for i, e := range n {
+		str += printTreeNode(e, 0)
+		if i+1 < l {
+			str += "\n"
+		}
+	}
+	fmt.Println(str)
+}
+
+// Taken and modified from github.com/santhosh-tekuri/dom/marshal.go
+//
+//   Copyright 2017 Santhosh Kumar Tekuri. All rights reserved.
+//   Use of this source code is governed by a BSD-style
+//   license that can be found in the LICENSE file.
+//
+func printName(n *dom.Name) string {
+	var str string
+	if n.Prefix != "" {
+		str += n.Prefix
+		str += ":"
+	}
+	str += n.Local
+	return str
+}
+
+// Taken and modified from github.com/santhosh-tekuri/dom/marshal.go
+//
+//   Copyright 2017 Santhosh Kumar Tekuri. All rights reserved.
+//   Use of this source code is governed by a BSD-style
+//   license that can be found in the LICENSE file.
+//
+func printTreeNode(n dom.Node, level int) string {
+	var str string
+	switch n := n.(type) {
+	case *dom.Document:
+		log.Printf("Document. Children %d\n", len(n.Children()))
+		for _, c := range n.Children() {
+			str += printTreeNode(c, level+1)
+		}
+	case *dom.Element:
+		str += "/"
+		str += printName(n.Name)
+		for prefix, _ := range n.NSDecl {
+			str += " "
+			str += "xmlns"
+			if prefix != "" {
+				str += ":"
+				str += prefix
+			}
+		}
+		for _, attr := range n.Attrs {
+			str += " @"
+			str += printName(attr.Name)
+		}
+		if len(n.Children()) != 0 {
+			log.Printf("Element '%s' Children %d\n", n.Name, len(n.ChildNodes))
+			unique := make(map[string]int)
+			for _, c := range n.Children() {
+				tmpStr := printTreeNode(c, level+1)
+				// Skip empty results
+				if tmpStr == "" {
+					continue
+				}
+				if v, ok := unique[tmpStr]; ok {
+					count := v + 1
+					unique[tmpStr] = count
+				} else {
+					unique[tmpStr] = 1
+				}
+			}
+			for k, v := range unique {
+				if strings.HasPrefix(k, "/") {
+					str += "\n"
+					str += strings.Repeat("    ", level+1)
+					str += fmt.Sprintf("[%d] %s", v, k)
+				} else {
+					str += fmt.Sprintf("%s", k)
+				}
+			}
+		}
+	case *dom.Text:
+		r := regexp.MustCompile(`^\n\s+$|^\s+$`)
+		if !r.Match([]byte(n.Data)) {
+			str += " text"
+		}
+	case *dom.ProcInst:
+		// TODO
+	}
+	return str
+}
+
 func printDoc(doc *dom.Document) {
 	buf := new(bytes.Buffer)
 	if err := dom.Marshal(doc, buf); err != nil {
@@ -72,7 +167,7 @@ func printDoc(doc *dom.Document) {
 
 func synopsis() {
 	synopsis := `# USAGE:
-	xsect <file> [<xpath>] [<relative_xpath>]
+	xsect <file> [<xpath>] [<relative_xpath>] [--tree]
 
 	xsect [--help]
 `
@@ -84,6 +179,7 @@ func main() {
 	opt.Bool("help", false)
 	opt.Bool("debug", false)
 	opt.Bool("version", false)
+	opt.Bool("tree", false)
 	remaining, err := opt.Parse(os.Args[1:])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
@@ -148,6 +244,10 @@ func main() {
 		os.Exit(1)
 	}
 	log.Printf("results: %d\n", len(nodeSet))
+	if opt.Called("tree") {
+		printNodeSetTree(nodeSet)
+		os.Exit(0)
+	}
 	printNodeSet(nodeSet)
 	if xpathRelQuery != "" {
 		doc := &dom.Document{nodeSet}
