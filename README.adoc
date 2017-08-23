@@ -1,5 +1,5 @@
 = XML Sectrix (xmlsect) (1)
-David Gamba, davidgamba at gmail.com
+David Gamba, DavidGamba at gmail.com
 :doctype: manpage
 
 == NAME
@@ -20,7 +20,7 @@ An example XPath would then look like `/ns:a/ns:b/ns:c`.
 * Using Golang:
 +
 ----
-go install github.com/davidgamba/xmlsect
+go install github.com/DavidGamba/xmlsect
 ----
 
 * Using https://copr.fedorainfracloud.org/coprs/davidgamba[Copr]:

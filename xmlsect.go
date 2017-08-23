@@ -17,8 +17,8 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/davidgamba/go-getoptions"
-	"github.com/davidgamba/xmlsect/semver"
+	"github.com/DavidGamba/go-getoptions"
+	"github.com/DavidGamba/xmlsect/semver"
 	"github.com/santhosh-tekuri/dom"
 	"github.com/santhosh-tekuri/xpath"
 )

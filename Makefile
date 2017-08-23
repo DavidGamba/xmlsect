@@ -6,7 +6,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-BUILD_FLAGS=-ldflags="-X github.com/davidgamba/xmlsect/semver.BuildMetadata=`git rev-parse HEAD`"
+BUILD_FLAGS=-ldflags="-X github.com/DavidGamba/xmlsect/semver.BuildMetadata=`git rev-parse HEAD`"
 
 test:
 	go test ./...
