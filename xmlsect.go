@@ -33,13 +33,15 @@ func extractXMLNS(b []byte) map[string]string {
 		nsid := string(m[1])
 		ns := string(m[2])
 		if nsid == "" {
-			nsid = "ns"
-			fmt.Fprintf(os.Stderr, "Found default namespace: %s\nUse 'ns' as the namespace ID for xpath: /ns:a/ns:b/ns:c\n\n", ns)
+			nsid = "DEFAULT"
+			xmlnsMap[nsid] = ns
+			nsid = "_"
+			xmlnsMap[nsid] = ns
+			fmt.Fprintf(os.Stderr, "Found default namespace: %s\nUse '_' or 'DEFAULT' as the namespace ID for xpath: /_:a/_:b/_:c\n\n", ns)
 		} else {
 			fmt.Fprintf(os.Stderr, "Found '%s' namespace: %s\n\n", nsid, ns)
+			xmlnsMap[nsid] = ns
 		}
-		// TODO: Check for duplicate nsid
-		xmlnsMap[nsid] = ns
 	}
 	return xmlnsMap
 }

@@ -8,9 +8,8 @@ xmlsect - Quickly query an XML file using XPath 1.0.
 
 This tool reads a whole XML file into memory, extracts its XML Namespaces using a regular expression and then loads all the _namespaces_ for you.
 
-When there is a default namespace, it automatically loads it under the namespace ID *ns*.
-An example XPath would then look like `/ns:a/ns:b/ns:c`.
-
+When there is a default namespace, it automatically loads it under the namespace ID *_* (or *DEFAULT*).
+An example XPath would then look like `/_:a/_:b/_:c`.
 
 == SYNOPSIS
 
