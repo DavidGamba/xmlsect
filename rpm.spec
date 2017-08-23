@@ -6,7 +6,7 @@
 
 Name:    xmlsect
 Summary: Quickly query an XML file using XPath 1.0.
-Version: 0.1.0
+Version: 0.2.0
 Release: 1
 License: MPL-2.0
 Group:   Development/Tools
@@ -29,9 +29,6 @@ set -x
 if [ ! -e %{_rpmdir} ]; then
   mkdir -p %{_rpmdir}
 fi
-
-pwd
-ls
 
 mkdir -p %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}/%{_mandir}/man1

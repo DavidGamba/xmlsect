@@ -192,7 +192,7 @@ func main() {
 		os.Exit(1)
 	}
 	if opt.Called("version") {
-		version := semver.Version{Major: 0, Minor: 1, Patch: 0}
+		version := semver.Version{Major: 0, Minor: 2, Patch: 0}
 		fmt.Println(version)
 		os.Exit(1)
 	}

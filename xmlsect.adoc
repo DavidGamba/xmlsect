@@ -1,5 +1,6 @@
-= XML Sectrix (xmlsect)
+= xmlsect(1)
 David Gamba, DavidGamba at gmail.com
+:doctype: manpage
 
 == NAME
 
