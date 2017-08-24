@@ -29,7 +29,7 @@ deploy:
   provider: releases
   api_key:
     secure: uiSHDUV+M04NrwpZS+q18+pbgFknZhGsKu0a5xuVCyGKVNaQK65hgW3cnSvNCfYetpP4e38i41e7H4eDVmFhHstNxrIanEnT6Nol/NinYZYMZjcSP03bMR63KdgkxN4nTma6G6uXCG/UcDx0HSPYueR4vjJKOi9dUz8bnHQntcl3rGEnY987N/a/Gt/pqsfynWlpFAxEXqaySX6x7BtjE42+nexRbVYyFH4PyaTYzmJSPognpp6EpCevAdRUs1+Z2Qboy3yoQCTJ4gmVFee4iT3NDCFTm77UJw9NdDSoCkBqgCocxObEAzAsuynP5KIin7luk+lE9nxHyJVS4YENPLSGDd+8kWlGUDoHDh6DLQHIb7wn0NB3DcZ2PhZ739NYlKRLf5d5G2DtYp29oAFCpWwuU5pg4MBLLWSUVpORsFh0Azj14rh31ThIte0e5zYtO570xl0W87C041csO+291YrDP3E9OzaUCn/LkLy7PFC3xtxzuUAfX03EB4cSRvu9WoeblCssuF5VYBDJopYVtH74yp3WWoOli3C8F/F08SNwUhxEjMVOlwJEx0ZOUJfZOsc322DBCRF/fgTN63/jv+xB4Wr7Szb3WZTh1Uv5jqk1M1Wg9usHamWLq1cVW6m7N2GAtHF09h8egvXYnIVutKjCayfC6lByo2oR/6PGzq8=
-  file: ./RPMS/xmlsect-0.2.0-1.x86_64.rpm
+  file: ./RPMS/xmlsect-0.3.0-1.x86_64.rpm
   skip_cleanup: true
   on:
     repo: DavidGamba/xmlsect
