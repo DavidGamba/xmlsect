@@ -64,11 +64,11 @@ func printNodeSet(n []dom.Node) {
 	}
 }
 
-func printNodeSetTree(n []dom.Node) {
+func printNodeSetTree(n []dom.Node, unique bool) {
 	var str string
 	l := len(n)
 	for i, e := range n {
-		str += printTreeNode(e, 0)
+		str += printTreeNode(e, 0, unique)
 		if i+1 < l {
 			str += "\n"
 		}
@@ -98,13 +98,13 @@ func printName(n *dom.Name) string {
 //   Use of this source code is governed by a BSD-style
 //   license that can be found in the LICENSE file.
 //
-func printTreeNode(n dom.Node, level int) string {
+func printTreeNode(n dom.Node, level int, unique bool) string {
 	var str string
 	switch n := n.(type) {
 	case *dom.Document:
 		log.Printf("Document. Children %d\n", len(n.Children()))
 		for _, c := range n.Children() {
-			str += printTreeNode(c, level+1)
+			str += printTreeNode(c, level+1, unique)
 		}
 	case *dom.Element:
 		str += "/"
@@ -123,21 +123,31 @@ func printTreeNode(n dom.Node, level int) string {
 		}
 		if len(n.Children()) != 0 {
 			log.Printf("Element '%s' Children %d\n", n.Name, len(n.ChildNodes))
-			unique := make(map[string]int)
+			uniqueMap := make(map[string]int)
 			for _, c := range n.Children() {
-				tmpStr := printTreeNode(c, level+1)
+				tmpStr := printTreeNode(c, level+1, unique)
 				// Skip empty results
 				if tmpStr == "" {
 					continue
 				}
-				if v, ok := unique[tmpStr]; ok {
+				if !unique {
+					if strings.HasPrefix(tmpStr, "/") {
+						str += "\n"
+						str += strings.Repeat("    ", level+1)
+					}
+					str += tmpStr
+				}
+				if v, ok := uniqueMap[tmpStr]; ok {
 					count := v + 1
-					unique[tmpStr] = count
+					uniqueMap[tmpStr] = count
 				} else {
-					unique[tmpStr] = 1
+					uniqueMap[tmpStr] = 1
 				}
 			}
-			for k, v := range unique {
+			if !unique {
+				return str
+			}
+			for k, v := range uniqueMap {
 				if strings.HasPrefix(k, "/") {
 					str += "\n"
 					str += strings.Repeat("    ", level+1)
@@ -169,7 +179,7 @@ func printDoc(doc *dom.Document) {
 
 func synopsis() {
 	synopsis := `# USAGE:
-	xsect <file> [<xpath>] [<relative_xpath>] [--tree]
+	xsect <file> [<xpath>] [<relative_xpath>] [--tree [--unique]]
 
 	xsect [--help]
 `
@@ -177,11 +187,13 @@ func synopsis() {
 }
 
 func main() {
+	var unique bool
 	opt := getoptions.New()
 	opt.Bool("help", false)
 	opt.Bool("debug", false)
 	opt.Bool("version", false)
 	opt.Bool("tree", false)
+	opt.BoolVar(&unique, "unique", false)
 	remaining, err := opt.Parse(os.Args[1:])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
@@ -247,7 +259,7 @@ func main() {
 	}
 	log.Printf("results: %d\n", len(nodeSet))
 	if opt.Called("tree") {
-		printNodeSetTree(nodeSet)
+		printNodeSetTree(nodeSet, unique)
 		os.Exit(0)
 	}
 	printNodeSet(nodeSet)

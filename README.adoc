@@ -12,7 +12,7 @@ An example XPath would then look like `+/_:a/_:b/_:c+`.
 
 == SYNOPSIS
 
-*xmlsect* _file_ [_xpath_] [_relative_xpath] [*--tree*]
+*xmlsect* _file_ [_xpath_] [_relative_xpath_] [*--tree* [*--unique*]]
 
 == Installation
 
