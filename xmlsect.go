@@ -24,6 +24,8 @@ import (
 	"github.com/santhosh-tekuri/xpath"
 )
 
+var limit int = 0
+
 func extractXMLNS(b []byte) map[string]string {
 	xmlnsMap := make(map[string]string)
 	r := regexp.MustCompile(`xmlns:?([^=]*)=["']?([^"'\s]+)["']?`)
@@ -99,6 +101,9 @@ func printName(n *dom.Name) string {
 //   license that can be found in the LICENSE file.
 //
 func printTreeNode(n dom.Node, level int, unique bool) string {
+	if limit != 0 && level > limit {
+		return ""
+	}
 	var str string
 	switch n := n.(type) {
 	case *dom.Document:
@@ -179,7 +184,7 @@ func printDoc(doc *dom.Document) {
 
 func synopsis() {
 	synopsis := `# USAGE:
-	xsect <file> [<xpath>] [<relative_xpath>] [--tree [--unique]]
+	xsect <file> [<xpath>] [<relative_xpath>] [--tree [--unique] [--limit <n>]]
 
 	xsect [--help]
 `
@@ -194,6 +199,7 @@ func main() {
 	opt.Bool("version", false)
 	opt.Bool("tree", false)
 	opt.BoolVar(&unique, "unique", false)
+	opt.IntVar(&limit, "limit", 0)
 	remaining, err := opt.Parse(os.Args[1:])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
