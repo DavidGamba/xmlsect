@@ -6,7 +6,7 @@
 
 Name:    xmlsect
 Summary: Quickly query an XML file using XPath 1.0.
-Version: 0.3.0
+Version: 0.4.0
 Release: 1
 License: MPL-2.0
 Group:   Development/Tools
