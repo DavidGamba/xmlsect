@@ -16,6 +16,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	// "sort"
 	"strings"
 
 	"github.com/DavidGamba/go-getoptions"
@@ -46,6 +47,39 @@ func extractXMLNS(b []byte) map[string]string {
 		}
 	}
 	return xmlnsMap
+}
+
+func sliceCompare(a, b []string) []string {
+	var r []string
+	m := make(map[string]struct{}, len(a))
+	for _, e := range a {
+		m[e] = struct{}{}
+	}
+	for _, e := range b {
+		if _, ok := m[e]; ok {
+			r = append(r, e)
+		}
+	}
+	return r
+}
+
+func printNodeSetElementAttributes(n []dom.Node, attributes []string) {
+	for _, e := range n {
+		switch t := e.(type) {
+		case *dom.Element:
+			var entries []string
+			for _, e := range attributes {
+				for _, attr := range t.Attrs {
+					if attr.Name.String() == e {
+						entries = append(entries, fmt.Sprintf("%s=%s", attr.Name, attr.Value))
+					}
+				}
+			}
+			if len(entries) > 0 {
+				fmt.Printf("%s\n", strings.Join(entries, " "))
+			}
+		}
+	}
 }
 
 func printNodeSet(n []dom.Node) {
@@ -193,6 +227,7 @@ func synopsis() {
 
 func main() {
 	var unique bool
+	var attributes []string
 	opt := getoptions.New()
 	opt.Bool("help", false)
 	opt.Bool("debug", false)
@@ -200,6 +235,7 @@ func main() {
 	opt.Bool("tree", false)
 	opt.BoolVar(&unique, "unique", false)
 	opt.IntVar(&limit, "limit", 0)
+	opt.StringSliceVar(&attributes, "attributes", 1, 99)
 	remaining, err := opt.Parse(os.Args[1:])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
@@ -266,6 +302,11 @@ func main() {
 	log.Printf("results: %d\n", len(nodeSet))
 	if opt.Called("tree") {
 		printNodeSetTree(nodeSet, unique)
+		os.Exit(0)
+	}
+	if opt.Called("attributes") {
+		log.Printf("attributes: %v\n", attributes)
+		printNodeSetElementAttributes(nodeSet, attributes)
 		os.Exit(0)
 	}
 	printNodeSet(nodeSet)
